@@ -1,0 +1,5 @@
+_extends: ysoftwareab/yplatform:repo/dot.github/settings.base.yml
+
+# repository:
+#   name:
+#   description:
