@@ -1,15 +1,14 @@
 {
   "private": true,
-  "name": "",
-  "description": "",
+  "name": "yplatform-test",
+  "description": "Test repository for https://github.com/ysoftwareab/yplatform",
   "version": "0.0.0",
   "license": "Apache-2.0",
-  "files": [
-  ],
-  "peerDependencies": {
-  },
-  "dependencies": {
-  },
+  "files": [],
+  "peerDependencies": {},
+  "dependencies": {},
   "devDependencies": {
+    "@types/node": "^10.17.14",
+    "lodash-firecloud": "git://github.com/ysoftwareab/lodash-firecloud.git#semver:~0.5.28"
   }
 }

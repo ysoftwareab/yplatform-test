@@ -1,0 +1,119 @@
+#!/usr/bin/env node
+
+let _ = require('lodash-firecloud');
+let ypVsn = require('../../yplatform/package.json').version;
+
+let {
+  artifactsStep,
+  checkoutStep,
+  ciShSteps,
+  ciShStepsDeploy,
+  env: commonEnv
+} = require('../../yplatform/.github/workflows.src/main-common');
+
+let {
+  matrixContainer
+} = require('../../yplatform/.github/workflows.src/main-matrix');
+// debug
+// matrixContainer = {
+//   smoke: [
+//     'yp-ubuntu-20.04'
+//   ]
+// };
+
+// -----------------------------------------------------------------------------
+
+let env = {
+  ...commonEnv,
+  DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}',
+  DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}',
+  GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}',
+  GITHUB_MATRIX_YP_CI_BREW_INSTALL: '${{ matrix.yp_ci_brew_install }}',
+  YP_SKIP_SUDO_BOOTSTRAP: '${{ matrix.yp_skip_sudo_bootstrap }}',
+  YP_SKIP_BREW_BOOTSTRAP: '${{ matrix.yp_skip_brew_bootstrap }}'
+};
+
+let jobs = {};
+
+let makeJobs = function(matrixContainer, nameSuffix) {
+  matrixContainer = _.isArray(matrixContainer) ? matrixContainer : [
+    matrixContainer
+  ];
+
+  // name should be the exact docker image name as defined in dockerfiles/util/build:DOCKER_IMAGE_NAME
+  let containerImageName = '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}';
+  let name = _.join([
+    containerImageName,
+    'skipsudob${{ matrix.yp_skip_sudo_bootstrap }}',
+    'skipbrewb${{ matrix.yp_skip_brew_bootstrap }}'
+  ], '-');
+  jobs[`main-${nameSuffix}`] = {
+    'timeout-minutes': 30,
+    strategy: {
+      'fail-fast': false,
+      matrix: {
+        container: matrixContainer,
+        yp_ci_brew_install: [
+          'minimal',
+          'common'
+        ],
+        yp_skip_sudo_bootstrap: [
+          '',
+          'true'
+        ],
+        yp_skip_brew_bootstrap: [
+          '',
+          'true'
+        ]
+      }
+    },
+    name,
+    'runs-on': 'ubuntu-latest',
+    container: {
+      image: `ysoftwareab/${containerImageName}:${ypVsn}`
+    },
+    env: {
+      ...env,
+      GITHUB_JOB_NAME: name
+    },
+    steps: [
+      checkoutStep,
+      ...ciShSteps,
+      ...ciShStepsDeploy,
+      _.merge({}, artifactsStep, {
+        with: {
+          name
+        }
+      })
+    ]
+  };
+};
+
+_.forEach(matrixContainer, makeJobs);
+
+let workflow = {
+  name: 'CI',
+  on: {
+    push: {
+      branches: [
+        'github*',
+        'master'
+      ]
+    },
+    schedule: [{
+      cron: '0 0 * * *'
+    }],
+    // eslint-disable-next-line no-null/no-null
+    workflow_dispatch: null
+  },
+  concurrency: {
+    group: '${{ github.ref }}',
+    'cancel-in-progress': true
+  },
+  jobs: {
+    ...jobs
+  }
+};
+
+// eslint-disable-next-line no-console, no-null/no-null
+console.log(JSON.stringify(workflow, null, 2));
