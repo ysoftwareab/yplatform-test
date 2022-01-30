@@ -5,23 +5,12 @@ let ypVsn = require('../../yplatform/package.json').version;
 // debug
 // ypVsn = '0.3.12';
 
-let {
-  artifactsStep,
-  checkoutStep,
-  ciShSteps,
-  ciShStepsDeploy,
-  env: commonEnv
-} = require('../../yplatform/.github/workflows.src/main-common');
-
-let {
-  matrixContainer
-} = require('../../yplatform/.github/workflows.src/main-matrix');
-// debug
-// matrixContainer = {
-//   smoke: [
-//     'yp-ubuntu-20.04'
-//   ]
-// };
+let {artifactsStep} = require('../../yplatform/.github/workflows.src/common-step-artifacts');
+let {checkoutStep} = require('../../yplatform/.github/workflows.src/common-step-checkout');
+let {ciShSteps, ciShStepsDeploy} = require('../../yplatform/.github/workflows.src/common-steps');
+let {dockerBuildxSteps} = require('../../yplatform/.github/workflows.src/common-step-dockerbuildx');
+let {env: commonEnv} = require('../../yplatform/.github/workflows.src/common-env');
+let {matrixContainer} = require('../../yplatform/.github/workflows.src/common-matrix-container');
 
 // -----------------------------------------------------------------------------
 
@@ -42,14 +31,13 @@ let makeJobs = function(matrixContainer, nameSuffix) {
     matrixContainer
   ];
 
-  // name should be the exact docker image name as defined in dockerfiles/util/build:DOCKER_IMAGE_NAME
-  let containerImageName = '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}';
+  let containerImageName = 'yp-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}';
   let name = _.join([
     containerImageName,
     'skipsudob${{ matrix.yp_skip_sudo_bootstrap }}',
     'skipbrewb${{ matrix.yp_skip_brew_bootstrap }}'
   ], '-');
-  jobs[`main-${nameSuffix}`] = {
+  jobs[`mainc-${nameSuffix}`] = {
     'timeout-minutes': 30,
     strategy: {
       'fail-fast': false,
