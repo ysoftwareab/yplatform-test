@@ -32,7 +32,7 @@ jobs:
       }}-skipbrewb${{ matrix.yp_skip_brew_bootstrap }}
     runs-on: ubuntu-latest
     container:
-      image: 'ysoftwareab/yp-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}:0.3.22'
+      image: 'ysoftwareab/yp-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}:0.3.23'
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
       YP_LOG_BOOTSTRAP: true
@@ -259,7 +259,7 @@ jobs:
       }}-skipbrewb${{ matrix.yp_skip_brew_bootstrap }}
     runs-on: ubuntu-latest
     container:
-      image: 'ysoftwareab/yp-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}:0.3.22'
+      image: 'ysoftwareab/yp-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}:0.3.23'
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
       YP_LOG_BOOTSTRAP: true
@@ -486,7 +486,7 @@ jobs:
       }}-skipbrewb${{ matrix.yp_skip_brew_bootstrap }}
     runs-on: ubuntu-latest
     container:
-      image: 'ysoftwareab/yp-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}:0.3.22'
+      image: 'ysoftwareab/yp-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}:0.3.23'
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
       YP_LOG_BOOTSTRAP: true
@@ -714,7 +714,7 @@ jobs:
       }}-skipbrewb${{ matrix.yp_skip_brew_bootstrap }}
     runs-on: ubuntu-latest
     container:
-      image: 'ysoftwareab/yp-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}:0.3.22'
+      image: 'ysoftwareab/yp-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}:0.3.23'
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
       YP_LOG_BOOTSTRAP: true
@@ -943,7 +943,7 @@ jobs:
       }}-skipbrewb${{ matrix.yp_skip_brew_bootstrap }}
     runs-on: ubuntu-latest
     container:
-      image: 'ysoftwareab/yp-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}:0.3.22'
+      image: 'ysoftwareab/yp-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}:0.3.23'
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
       YP_LOG_BOOTSTRAP: true
