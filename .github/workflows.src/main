@@ -6,7 +6,7 @@ let ypVsn = require('../../yplatform/package.json').version;
 // ypVsn = '0.3.12';
 
 let {getArtifacts, artifactsStep} = require('../../yplatform/.github/workflows.src/common-step-artifacts');
-let {checkoutStep} = require('../../yplatform/.github/workflows.src/common-step-checkout');
+// let {checkoutStep} = require('../../yplatform/.github/workflows.src/common-step-checkout');
 let {ciShSteps, ciShStepsDeploy} = require('../../yplatform/.github/workflows.src/common-steps');
 let {dockerBuildxSteps} = require('../../yplatform/.github/workflows.src/common-step-dockerbuildx');
 let {env: commonEnv} = require('../../yplatform/.github/workflows.src/common-env');
@@ -14,16 +14,15 @@ let {matrixContainer} = require('../../yplatform/.github/workflows.src/common-ma
 
 // -----------------------------------------------------------------------------
 
-let fs = require('fs');
-let githubFix = fs.readFileSync(`${__dirname}/../../yplatform/bin/github-fix`, 'utf8');
-
-let fixStep = {
-  name: 'yplatform/bin/github-fix',
-  shell: 'bash',
-  run: [
-    'set -x',
-    githubFix
-  ].join('\n')
+let actionStep = {
+  // uses: `ysoftwareab/yplatform@v${ypVsn}`,
+  uses: `ysoftwareab/yplatform@f94a1c14b217fc6bb2eb08fa118d1ec0c67fd9c4`,
+  with: {
+    run: _.join([
+      'bin/github-fix',
+      'bin/github-checkout'
+    ], '\n')
+  }
 };
 
 let env = {
@@ -80,8 +79,7 @@ let makeJobs = function(matrixContainer, nameSuffix) {
       GITHUB_JOB_NAME: name
     },
     steps: [
-      fixStep,
-      checkoutStep,
+      actionStep,
       ...ciShSteps,
       ...ciShStepsDeploy,
       _.merge({}, artifactsStep, {
