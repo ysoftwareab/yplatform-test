@@ -5,7 +5,7 @@ let ypVsn = require('../../yplatform/package.json').version;
 // debug
 // ypVsn = '0.3.12';
 
-let {artifactsStep} = require('../../yplatform/.github/workflows.src/common-step-artifacts');
+let {getArtifacts, artifactsStep} = require('../../yplatform/.github/workflows.src/common-step-artifacts');
 let {checkoutStep} = require('../../yplatform/.github/workflows.src/common-step-checkout');
 let {ciShSteps, ciShStepsDeploy} = require('../../yplatform/.github/workflows.src/common-steps');
 let {dockerBuildxSteps} = require('../../yplatform/.github/workflows.src/common-step-dockerbuildx');
@@ -86,7 +86,8 @@ let makeJobs = function(matrixContainer, nameSuffix) {
       ...ciShStepsDeploy,
       _.merge({}, artifactsStep, {
         with: {
-          name
+          name,
+          path: getArtifacts(`${__dirname}/../../.artifacts`)
         }
       })
     ]

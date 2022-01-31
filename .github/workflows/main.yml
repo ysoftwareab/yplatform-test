@@ -262,7 +262,6 @@ jobs:
             }}-skipbrewb${{ matrix.yp_skip_brew_bootstrap }}
           path: |-
             yp-ci-echo-benchmark
-            some-job-artifact.md
             log.sh-session
           retention-days: 7
   mainc-alpine:
@@ -516,7 +515,6 @@ jobs:
             }}-skipbrewb${{ matrix.yp_skip_brew_bootstrap }}
           path: |-
             yp-ci-echo-benchmark
-            some-job-artifact.md
             log.sh-session
           retention-days: 7
   mainc-centos:
@@ -770,7 +768,6 @@ jobs:
             }}-skipbrewb${{ matrix.yp_skip_brew_bootstrap }}
           path: |-
             yp-ci-echo-benchmark
-            some-job-artifact.md
             log.sh-session
           retention-days: 7
   mainc-debian:
@@ -1025,7 +1022,6 @@ jobs:
             }}-skipbrewb${{ matrix.yp_skip_brew_bootstrap }}
           path: |-
             yp-ci-echo-benchmark
-            some-job-artifact.md
             log.sh-session
           retention-days: 7
   mainc-ubuntu:
@@ -1281,6 +1277,5 @@ jobs:
             }}-skipbrewb${{ matrix.yp_skip_brew_bootstrap }}
           path: |-
             yp-ci-echo-benchmark
-            some-job-artifact.md
             log.sh-session
           retention-days: 7
