@@ -32,7 +32,8 @@ jobs:
       }}-skipbrewb${{ matrix.yp_skip_brew_bootstrap }}
     runs-on: ubuntu-latest
     container:
-      image: 'ysoftwareab/yp-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}:0.3.23'
+      image: 'ysoftwareab/yp-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}:0.3.24'
+      options: '--user yp:yp'
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
       YP_LOG_BOOTSTRAP: true
@@ -49,6 +50,32 @@ jobs:
         yp-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}-skipsudob${{ matrix.yp_skip_sudo_bootstrap
         }}-skipbrewb${{ matrix.yp_skip_brew_bootstrap }}
     steps:
+      - name: yplatform/bin/github-fix
+        shell: bash
+        run: |
+          set -x
+          #!/usr/bin/env bash
+          set -euo pipefail
+
+          # intended to be called as first thing in a github workflow, before bin/github-checkout
+
+          # GITHUB_WORKSPACE owned by 1001:116, makes it impossible to write in the folder
+          echo "Is GITHUB_WORKSPACE=${GITHUB_WORKSPACE} owned by 1001:116 ?"
+          ls -la -d ${GITHUB_WORKSPACE}
+          echo "Change ownership to $(id -u -n):$(id -g -n)."
+          sudo chown $(id -u -n):$(id -g -n) ${GITHUB_WORKSPACE}
+
+          # HOME set to /github/home, turns off sourcing ~/.profile, ~/.bash_profile, ~/.bashrc etc
+          HOME_REAL=$(eval echo "~$(id -u -n)")
+          echo "Is HOME=${HOME} set to /github/home?"
+          echo "${HOME}"
+          ls -la "${HOME}"
+          echo "Change HOME to ${HOME_REAL} for $(id -u -n):$(id -g -n)."
+          ls -la "${HOME_REAL}"
+          echo "By adding to ${GITHUB_ENV}."
+          touch ${GITHUB_ENV} || sudo touch ${GITHUB_ENV}
+          ls -la ${GITHUB_ENV}
+          echo "HOME=${HOME_REAL}" | sudo tee -a ${GITHUB_ENV}
       - name: yplatform/bin/github-checkout
         shell: bash
         run: >
@@ -259,7 +286,8 @@ jobs:
       }}-skipbrewb${{ matrix.yp_skip_brew_bootstrap }}
     runs-on: ubuntu-latest
     container:
-      image: 'ysoftwareab/yp-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}:0.3.23'
+      image: 'ysoftwareab/yp-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}:0.3.24'
+      options: '--user yp:yp'
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
       YP_LOG_BOOTSTRAP: true
@@ -276,6 +304,32 @@ jobs:
         yp-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}-skipsudob${{ matrix.yp_skip_sudo_bootstrap
         }}-skipbrewb${{ matrix.yp_skip_brew_bootstrap }}
     steps:
+      - name: yplatform/bin/github-fix
+        shell: bash
+        run: |
+          set -x
+          #!/usr/bin/env bash
+          set -euo pipefail
+
+          # intended to be called as first thing in a github workflow, before bin/github-checkout
+
+          # GITHUB_WORKSPACE owned by 1001:116, makes it impossible to write in the folder
+          echo "Is GITHUB_WORKSPACE=${GITHUB_WORKSPACE} owned by 1001:116 ?"
+          ls -la -d ${GITHUB_WORKSPACE}
+          echo "Change ownership to $(id -u -n):$(id -g -n)."
+          sudo chown $(id -u -n):$(id -g -n) ${GITHUB_WORKSPACE}
+
+          # HOME set to /github/home, turns off sourcing ~/.profile, ~/.bash_profile, ~/.bashrc etc
+          HOME_REAL=$(eval echo "~$(id -u -n)")
+          echo "Is HOME=${HOME} set to /github/home?"
+          echo "${HOME}"
+          ls -la "${HOME}"
+          echo "Change HOME to ${HOME_REAL} for $(id -u -n):$(id -g -n)."
+          ls -la "${HOME_REAL}"
+          echo "By adding to ${GITHUB_ENV}."
+          touch ${GITHUB_ENV} || sudo touch ${GITHUB_ENV}
+          ls -la ${GITHUB_ENV}
+          echo "HOME=${HOME_REAL}" | sudo tee -a ${GITHUB_ENV}
       - name: yplatform/bin/github-checkout
         shell: bash
         run: >
@@ -486,7 +540,8 @@ jobs:
       }}-skipbrewb${{ matrix.yp_skip_brew_bootstrap }}
     runs-on: ubuntu-latest
     container:
-      image: 'ysoftwareab/yp-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}:0.3.23'
+      image: 'ysoftwareab/yp-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}:0.3.24'
+      options: '--user yp:yp'
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
       YP_LOG_BOOTSTRAP: true
@@ -503,6 +558,32 @@ jobs:
         yp-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}-skipsudob${{ matrix.yp_skip_sudo_bootstrap
         }}-skipbrewb${{ matrix.yp_skip_brew_bootstrap }}
     steps:
+      - name: yplatform/bin/github-fix
+        shell: bash
+        run: |
+          set -x
+          #!/usr/bin/env bash
+          set -euo pipefail
+
+          # intended to be called as first thing in a github workflow, before bin/github-checkout
+
+          # GITHUB_WORKSPACE owned by 1001:116, makes it impossible to write in the folder
+          echo "Is GITHUB_WORKSPACE=${GITHUB_WORKSPACE} owned by 1001:116 ?"
+          ls -la -d ${GITHUB_WORKSPACE}
+          echo "Change ownership to $(id -u -n):$(id -g -n)."
+          sudo chown $(id -u -n):$(id -g -n) ${GITHUB_WORKSPACE}
+
+          # HOME set to /github/home, turns off sourcing ~/.profile, ~/.bash_profile, ~/.bashrc etc
+          HOME_REAL=$(eval echo "~$(id -u -n)")
+          echo "Is HOME=${HOME} set to /github/home?"
+          echo "${HOME}"
+          ls -la "${HOME}"
+          echo "Change HOME to ${HOME_REAL} for $(id -u -n):$(id -g -n)."
+          ls -la "${HOME_REAL}"
+          echo "By adding to ${GITHUB_ENV}."
+          touch ${GITHUB_ENV} || sudo touch ${GITHUB_ENV}
+          ls -la ${GITHUB_ENV}
+          echo "HOME=${HOME_REAL}" | sudo tee -a ${GITHUB_ENV}
       - name: yplatform/bin/github-checkout
         shell: bash
         run: >
@@ -714,7 +795,8 @@ jobs:
       }}-skipbrewb${{ matrix.yp_skip_brew_bootstrap }}
     runs-on: ubuntu-latest
     container:
-      image: 'ysoftwareab/yp-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}:0.3.23'
+      image: 'ysoftwareab/yp-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}:0.3.24'
+      options: '--user yp:yp'
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
       YP_LOG_BOOTSTRAP: true
@@ -731,6 +813,32 @@ jobs:
         yp-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}-skipsudob${{ matrix.yp_skip_sudo_bootstrap
         }}-skipbrewb${{ matrix.yp_skip_brew_bootstrap }}
     steps:
+      - name: yplatform/bin/github-fix
+        shell: bash
+        run: |
+          set -x
+          #!/usr/bin/env bash
+          set -euo pipefail
+
+          # intended to be called as first thing in a github workflow, before bin/github-checkout
+
+          # GITHUB_WORKSPACE owned by 1001:116, makes it impossible to write in the folder
+          echo "Is GITHUB_WORKSPACE=${GITHUB_WORKSPACE} owned by 1001:116 ?"
+          ls -la -d ${GITHUB_WORKSPACE}
+          echo "Change ownership to $(id -u -n):$(id -g -n)."
+          sudo chown $(id -u -n):$(id -g -n) ${GITHUB_WORKSPACE}
+
+          # HOME set to /github/home, turns off sourcing ~/.profile, ~/.bash_profile, ~/.bashrc etc
+          HOME_REAL=$(eval echo "~$(id -u -n)")
+          echo "Is HOME=${HOME} set to /github/home?"
+          echo "${HOME}"
+          ls -la "${HOME}"
+          echo "Change HOME to ${HOME_REAL} for $(id -u -n):$(id -g -n)."
+          ls -la "${HOME_REAL}"
+          echo "By adding to ${GITHUB_ENV}."
+          touch ${GITHUB_ENV} || sudo touch ${GITHUB_ENV}
+          ls -la ${GITHUB_ENV}
+          echo "HOME=${HOME_REAL}" | sudo tee -a ${GITHUB_ENV}
       - name: yplatform/bin/github-checkout
         shell: bash
         run: >
@@ -943,7 +1051,8 @@ jobs:
       }}-skipbrewb${{ matrix.yp_skip_brew_bootstrap }}
     runs-on: ubuntu-latest
     container:
-      image: 'ysoftwareab/yp-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}:0.3.23'
+      image: 'ysoftwareab/yp-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}:0.3.24'
+      options: '--user yp:yp'
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
       YP_LOG_BOOTSTRAP: true
@@ -960,6 +1069,32 @@ jobs:
         yp-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}-skipsudob${{ matrix.yp_skip_sudo_bootstrap
         }}-skipbrewb${{ matrix.yp_skip_brew_bootstrap }}
     steps:
+      - name: yplatform/bin/github-fix
+        shell: bash
+        run: |
+          set -x
+          #!/usr/bin/env bash
+          set -euo pipefail
+
+          # intended to be called as first thing in a github workflow, before bin/github-checkout
+
+          # GITHUB_WORKSPACE owned by 1001:116, makes it impossible to write in the folder
+          echo "Is GITHUB_WORKSPACE=${GITHUB_WORKSPACE} owned by 1001:116 ?"
+          ls -la -d ${GITHUB_WORKSPACE}
+          echo "Change ownership to $(id -u -n):$(id -g -n)."
+          sudo chown $(id -u -n):$(id -g -n) ${GITHUB_WORKSPACE}
+
+          # HOME set to /github/home, turns off sourcing ~/.profile, ~/.bash_profile, ~/.bashrc etc
+          HOME_REAL=$(eval echo "~$(id -u -n)")
+          echo "Is HOME=${HOME} set to /github/home?"
+          echo "${HOME}"
+          ls -la "${HOME}"
+          echo "Change HOME to ${HOME_REAL} for $(id -u -n):$(id -g -n)."
+          ls -la "${HOME_REAL}"
+          echo "By adding to ${GITHUB_ENV}."
+          touch ${GITHUB_ENV} || sudo touch ${GITHUB_ENV}
+          ls -la ${GITHUB_ENV}
+          echo "HOME=${HOME_REAL}" | sudo tee -a ${GITHUB_ENV}
       - name: yplatform/bin/github-checkout
         shell: bash
         run: >
