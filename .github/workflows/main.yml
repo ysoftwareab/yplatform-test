@@ -32,7 +32,7 @@ jobs:
       }}-skipbrewb${{ matrix.yp_skip_brew_bootstrap }}
     runs-on: ubuntu-latest
     container:
-      image: 'ysoftwareab/yp-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}:0.3.24'
+      image: 'ysoftwareab/yp-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}:0.3.25'
       options: '--user yp:yp'
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
@@ -50,7 +50,7 @@ jobs:
         yp-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}-skipsudob${{ matrix.yp_skip_sudo_bootstrap
         }}-skipbrewb${{ matrix.yp_skip_brew_bootstrap }}
     steps:
-      - uses: ysoftwareab/yplatform@f94a1c14b217fc6bb2eb08fa118d1ec0c67fd9c4
+      - uses: ysoftwareab/yplatform@v0.3.25
         with:
           run: |-
             bin/github-fix
@@ -115,7 +115,7 @@ jobs:
       }}-skipbrewb${{ matrix.yp_skip_brew_bootstrap }}
     runs-on: ubuntu-latest
     container:
-      image: 'ysoftwareab/yp-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}:0.3.24'
+      image: 'ysoftwareab/yp-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}:0.3.25'
       options: '--user yp:yp'
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
@@ -133,7 +133,7 @@ jobs:
         yp-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}-skipsudob${{ matrix.yp_skip_sudo_bootstrap
         }}-skipbrewb${{ matrix.yp_skip_brew_bootstrap }}
     steps:
-      - uses: ysoftwareab/yplatform@f94a1c14b217fc6bb2eb08fa118d1ec0c67fd9c4
+      - uses: ysoftwareab/yplatform@v0.3.25
         with:
           run: |-
             bin/github-fix
@@ -199,7 +199,7 @@ jobs:
       }}-skipbrewb${{ matrix.yp_skip_brew_bootstrap }}
     runs-on: ubuntu-latest
     container:
-      image: 'ysoftwareab/yp-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}:0.3.24'
+      image: 'ysoftwareab/yp-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}:0.3.25'
       options: '--user yp:yp'
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
@@ -217,7 +217,7 @@ jobs:
         yp-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}-skipsudob${{ matrix.yp_skip_sudo_bootstrap
         }}-skipbrewb${{ matrix.yp_skip_brew_bootstrap }}
     steps:
-      - uses: ysoftwareab/yplatform@f94a1c14b217fc6bb2eb08fa118d1ec0c67fd9c4
+      - uses: ysoftwareab/yplatform@v0.3.25
         with:
           run: |-
             bin/github-fix
@@ -284,7 +284,7 @@ jobs:
       }}-skipbrewb${{ matrix.yp_skip_brew_bootstrap }}
     runs-on: ubuntu-latest
     container:
-      image: 'ysoftwareab/yp-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}:0.3.24'
+      image: 'ysoftwareab/yp-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}:0.3.25'
       options: '--user yp:yp'
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
@@ -302,7 +302,7 @@ jobs:
         yp-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}-skipsudob${{ matrix.yp_skip_sudo_bootstrap
         }}-skipbrewb${{ matrix.yp_skip_brew_bootstrap }}
     steps:
-      - uses: ysoftwareab/yplatform@f94a1c14b217fc6bb2eb08fa118d1ec0c67fd9c4
+      - uses: ysoftwareab/yplatform@v0.3.25
         with:
           run: |-
             bin/github-fix

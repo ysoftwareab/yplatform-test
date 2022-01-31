@@ -18,8 +18,7 @@ let {matrixContainer} = require('../../yplatform/.github/workflows.src/common-ma
 delete matrixContainer.centos;
 
 let actionStep = {
-  // uses: `ysoftwareab/yplatform@v${ypVsn}`,
-  uses: `ysoftwareab/yplatform@f94a1c14b217fc6bb2eb08fa118d1ec0c67fd9c4`,
+  uses: `ysoftwareab/yplatform@v${ypVsn}`,
   with: {
     run: _.join([
       'bin/github-fix',
