@@ -20,6 +20,8 @@ jobs:
       options: '--user yp:yp'
     steps:
       - shell: bash
+        run: id -u; id -g
+      - shell: bash
         run: echo "HOME=/home/yp" | sudo tee -a $GITHUB_ENV
       - shell: bash
         run: echo $HOME; cd; pwd; ls -la
@@ -30,6 +32,7 @@ jobs:
       - uses: ysoftwareab/yplatform@master
         with:
           run: |-
+            id -u; id -g
             echo $HOME; cd; pwd; ls -la
             echo bar > ~/bar
             echo $HOME; cd; pwd; ls -la

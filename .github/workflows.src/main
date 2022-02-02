@@ -126,6 +126,9 @@ let workflow = {
       },
       steps: [{
         shell: 'bash',
+        run: 'id -u; id -g'
+      }, {
+        shell: 'bash',
         run: 'echo "HOME=/home/yp" | sudo tee -a $GITHUB_ENV'
       }, {
         shell: 'bash',
@@ -140,6 +143,7 @@ let workflow = {
         uses: `ysoftwareab/yplatform@master`,
         with: {
           run: _.join([
+            'id -u; id -g',
             'echo $HOME; cd; pwd; ls -la',
             'echo bar > ~/bar',
             'echo $HOME; cd; pwd; ls -la'
