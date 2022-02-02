@@ -24,20 +24,20 @@ jobs:
       - shell: bash
         run: echo "HOME=/home/yp" | sudo tee -a $GITHUB_ENV
       - shell: bash
-        run: 'ls -la ${HOME}; ls -la /github/home; ls -la $GITHUB_WORKSPACE'
+        run: 'ls -la ${HOME}; ls -la /github/{home,workflow,file_commands,workspace}'
       - shell: bash
-        run: 'touch ~/test1; sudo touch /github/home/test1; sudo touch ${GITHUB_WORKSPACE}/test1'
+        run: 'touch ~/test1; sudo touch /github/{home,workflow,file_commands,workspace}/test1'
       - shell: bash
-        run: 'ls -la ${HOME}; ls -la /github/home; ls -la $GITHUB_WORKSPACE'
+        run: 'ls -la ${HOME}; ls -la /github/{home,workflow,file_commands,workspace}'
       - uses: ysoftwareab/yplatform@master
         with:
           run: |-
             id -u; id -g
-            ls -la ${HOME}
-            touch ~/test1-action; sudo touch /github/home/test1-action; sudo touch ${GITHUB_WORKSPACE}/test1-action
-            ls -la ${HOME}
+            ls -la ${HOME}; ls -la /github/{home,workflow,file_commands,workspace}
+            touch ~/test1-action; sudo touch /github/{home,workflow,file_commands,workspace}/test1-action
+            ls -la ${HOME}; ls -la /github/{home,workflow,file_commands,workspace}
       - shell: bash
-        run: 'ls -la ${HOME}; ls -la /github/home; ls -la $GITHUB_WORKSPACE'
+        run: 'ls -la ${HOME}; ls -la /github/{home,workflow,file_commands,workspace}'
   test2:
     timeout-minutes: 30
     name: test2
@@ -51,20 +51,20 @@ jobs:
       - shell: bash
         run: echo "HOME=/home/yp" | sudo tee -a $GITHUB_ENV
       - shell: bash
-        run: 'ls -la ${HOME}; ls -la /github/home; ls -la $GITHUB_WORKSPACE'
+        run: 'ls -la ${HOME}; ls -la /github/{home,workflow,file_commands,workspace}'
       - shell: bash
-        run: 'touch ~/test2; sudo touch /github/home/test2; sudo touch ${GITHUB_WORKSPACE}/test2'
+        run: 'touch ~/test2; sudo touch /github/{home,workflow,file_commands,workspace}/test2'
       - shell: bash
-        run: 'ls -la ${HOME}; ls -la /github/home; ls -la $GITHUB_WORKSPACE'
+        run: 'ls -la ${HOME}; ls -la /github/{home,workflow,file_commands,workspace}'
       - uses: ysoftwareab/yplatform@master
         with:
           run: |-
             id -u; id -g
-            ls -la ${HOME}
-            touch ~/test2-action; sudo touch /github/home/test2-action; sudo touch ${GITHUB_WORKSPACE}/test2-action
-            ls -la ${HOME}
+            ls -la ${HOME}; ls -la /github/{home,workflow,file_commands,workspace}
+            touch ~/test2-action; sudo touch /github/{home,workflow,file_commands,workspace}/test2-action
+            ls -la ${HOME}; ls -la /github/{home,workflow,file_commands,workspace}
       - shell: bash
-        run: 'ls -la ${HOME}; ls -la /github/home; ls -la $GITHUB_WORKSPACE'
+        run: 'ls -la ${HOME}; ls -la /github/{home,workflow,file_commands,workspace}'
   test3:
     timeout-minutes: 30
     name: test3
@@ -78,20 +78,20 @@ jobs:
       - shell: bash
         run: echo "HOME=/home/yp" | sudo tee -a $GITHUB_ENV
       - shell: bash
-        run: 'ls -la ${HOME}; ls -la /github/home; ls -la $GITHUB_WORKSPACE'
+        run: 'ls -la ${HOME}; ls -la /github/{home,workflow,file_commands,workspace}'
       - shell: bash
-        run: 'touch ~/test3; sudo touch /github/home/test3; sudo touch ${GITHUB_WORKSPACE}/test3'
+        run: 'touch ~/test3; sudo touch /github/{home,workflow,file_commands,workspace}/test3'
       - shell: bash
-        run: 'ls -la ${HOME}; ls -la /github/home; ls -la $GITHUB_WORKSPACE'
+        run: 'ls -la ${HOME}; ls -la /github/{home,workflow,file_commands,workspace}'
       - uses: ysoftwareab/yplatform@master
         with:
           run: |-
             id -u; id -g
-            ls -la ${HOME}
-            touch ~/test3-action; sudo touch /github/home/test3-action; sudo touch ${GITHUB_WORKSPACE}/test3-action
-            ls -la ${HOME}
+            ls -la ${HOME}; ls -la /github/{home,workflow,file_commands,workspace}
+            touch ~/test3-action; sudo touch /github/{home,workflow,file_commands,workspace}/test3-action
+            ls -la ${HOME}; ls -la /github/{home,workflow,file_commands,workspace}
       - shell: bash
-        run: 'ls -la ${HOME}; ls -la /github/home; ls -la $GITHUB_WORKSPACE'
+        run: 'ls -la ${HOME}; ls -la /github/{home,workflow,file_commands,workspace}'
     needs:
       - test1
       - test2

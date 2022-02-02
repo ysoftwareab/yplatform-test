@@ -113,26 +113,26 @@ let makeJob = function(index) {
       run: 'echo "HOME=/home/yp" | sudo tee -a $GITHUB_ENV'
     }, {
       shell: 'bash',
-      run: 'ls -la ${HOME}; ls -la /github/home; ls -la $GITHUB_WORKSPACE'
+      run: 'ls -la ${HOME}; ls -la /github/{home,workflow,file_commands,workspace}'
     }, {
       shell: 'bash',
-      run: `touch ~/test${index}; sudo touch /github/home/test${index}; sudo touch \${GITHUB_WORKSPACE}/test${index}`
+      run: `touch ~/test${index}; sudo touch /github/{home,workflow,file_commands,workspace}/test${index}`
     }, {
       shell: 'bash',
-      run: 'ls -la ${HOME}; ls -la /github/home; ls -la $GITHUB_WORKSPACE'
+      run: 'ls -la ${HOME}; ls -la /github/{home,workflow,file_commands,workspace}'
     }, {
       uses: `ysoftwareab/yplatform@master`,
       with: {
         run: _.join([
           'id -u; id -g',
-          'ls -la ${HOME}',
-          `touch ~/test${index}-action; sudo touch /github/home/test${index}-action; sudo touch \${GITHUB_WORKSPACE}/test${index}-action`,
-          'ls -la ${HOME}'
+          'ls -la ${HOME}; ls -la /github/{home,workflow,file_commands,workspace}',
+          `touch ~/test${index}-action; sudo touch /github/{home,workflow,file_commands,workspace}/test${index}-action`,
+          'ls -la ${HOME}; ls -la /github/{home,workflow,file_commands,workspace}'
         ], '\n')
       }
     }, {
       shell: 'bash',
-      run: 'ls -la ${HOME}; ls -la /github/home; ls -la $GITHUB_WORKSPACE'
+      run: 'ls -la ${HOME}; ls -la /github/{home,workflow,file_commands,workspace}'
     }]
   };
 }
