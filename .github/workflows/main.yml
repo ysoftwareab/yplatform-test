@@ -27,3 +27,11 @@ jobs:
         run: echo foo > ~/foo
       - shell: bash
         run: echo $HOME; cd; pwd; ls -la
+      - uses: ysoftwareab/yplatform
+        with:
+          run: |-
+            echo $HOME; cd; pwd; ls -la
+            echo bar > ~/bar
+            echo $HOME; cd; pwd; ls -la
+      - shell: bash
+        run: echo $HOME; cd; pwd; ls -la
