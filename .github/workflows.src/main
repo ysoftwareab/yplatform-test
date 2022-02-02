@@ -116,21 +116,21 @@ let makeJob = function(index) {
       run: 'echo "WORKFLOW_DIR=$(dirname ${GITHUB_EVENT_PATH})" | sudo tee -a $GITHUB_ENV'
     }, {
       shell: 'bash',
-      run: 'ls -la ${HOME}; ls -la /github/{home,workspace}; ls -la ${WORKFLOW_DIR}'
+      run: 'ls -la ${HOME}; ls -la /github/home; ls -la ${GITHUB_WORKSPACE}; ls -la ${WORKFLOW_DIR}'
     }, {
       shell: 'bash',
       run: `touch ~/test${index}; sudo touch /github/{home,workspace}/test${index} \${WORKFLOW_DIR}/test${index}`
     }, {
       shell: 'bash',
-      run: 'ls -la ${HOME}; ls -la /github/{home,workspace}; ls -la ${WORKFLOW_DIR}'
+      run: 'ls -la ${HOME}; ls -la /github/home; ls -la ${GITHUB_WORKSPACE}; ls -la ${WORKFLOW_DIR}'
     }, {
       uses: `ysoftwareab/yplatform@master`,
       with: {
         run: _.join([
           'id -u; id -g',
-          'ls -la ${HOME}; ls -la /github/{home,workspace}; ls -la ${WORKFLOW_DIR}',
-          `touch ~/test${index}-action; sudo touch /github/{home,workspace}/test${index}-action \${WORKFLOW_DIR}/test${index}-action`,
-          'ls -la ${HOME}; ls -la /github/{home,workspace}; ls -la ${WORKFLOW_DIR}'
+          'ls -la ${HOME}; ls -la /github/home; ls -la ${GITHUB_WORKSPACE}; ls -la ${WORKFLOW_DIR}',
+          `touch ~/test${index}-action; sudo touch /github/home/test${index}-action \${GITHUB_WORKSPACE}/test${index}-action \${WORKFLOW_DIR}/test${index}-action`,
+          'ls -la ${HOME}; ls -la /github/home; ls -la ${GITHUB_WORKSPACE}; ls -la ${WORKFLOW_DIR}'
         ], '\n')
       }
     }, {

@@ -26,18 +26,22 @@ jobs:
       - shell: bash
         run: 'echo "WORKFLOW_DIR=$(dirname ${GITHUB_EVENT_PATH})" | sudo tee -a $GITHUB_ENV'
       - shell: bash
-        run: 'ls -la ${HOME}; ls -la /github/{home,workspace}; ls -la ${WORKFLOW_DIR}'
+        run: 'ls -la ${HOME}; ls -la /github/home; ls -la ${GITHUB_WORKSPACE}; ls -la ${WORKFLOW_DIR}'
       - shell: bash
         run: 'touch ~/test1; sudo touch /github/{home,workspace}/test1 ${WORKFLOW_DIR}/test1'
       - shell: bash
-        run: 'ls -la ${HOME}; ls -la /github/{home,workspace}; ls -la ${WORKFLOW_DIR}'
+        run: 'ls -la ${HOME}; ls -la /github/home; ls -la ${GITHUB_WORKSPACE}; ls -la ${WORKFLOW_DIR}'
       - uses: ysoftwareab/yplatform@master
         with:
-          run: |-
+          run: >-
             id -u; id -g
-            ls -la ${HOME}; ls -la /github/{home,workspace}; ls -la ${WORKFLOW_DIR}
-            touch ~/test1-action; sudo touch /github/{home,workspace}/test1-action ${WORKFLOW_DIR}/test1-action
-            ls -la ${HOME}; ls -la /github/{home,workspace}; ls -la ${WORKFLOW_DIR}
+
+            ls -la ${HOME}; ls -la /github/home; ls -la ${GITHUB_WORKSPACE}; ls -la ${WORKFLOW_DIR}
+
+            touch ~/test1-action; sudo touch /github/home/test1-action ${GITHUB_WORKSPACE}/test1-action
+            ${WORKFLOW_DIR}/test1-action
+
+            ls -la ${HOME}; ls -la /github/home; ls -la ${GITHUB_WORKSPACE}; ls -la ${WORKFLOW_DIR}
       - shell: bash
         run: 'ls -la ${HOME}; ls -la /github/{home,workspace} || true'
   test2:
@@ -55,18 +59,22 @@ jobs:
       - shell: bash
         run: 'echo "WORKFLOW_DIR=$(dirname ${GITHUB_EVENT_PATH})" | sudo tee -a $GITHUB_ENV'
       - shell: bash
-        run: 'ls -la ${HOME}; ls -la /github/{home,workspace}; ls -la ${WORKFLOW_DIR}'
+        run: 'ls -la ${HOME}; ls -la /github/home; ls -la ${GITHUB_WORKSPACE}; ls -la ${WORKFLOW_DIR}'
       - shell: bash
         run: 'touch ~/test2; sudo touch /github/{home,workspace}/test2 ${WORKFLOW_DIR}/test2'
       - shell: bash
-        run: 'ls -la ${HOME}; ls -la /github/{home,workspace}; ls -la ${WORKFLOW_DIR}'
+        run: 'ls -la ${HOME}; ls -la /github/home; ls -la ${GITHUB_WORKSPACE}; ls -la ${WORKFLOW_DIR}'
       - uses: ysoftwareab/yplatform@master
         with:
-          run: |-
+          run: >-
             id -u; id -g
-            ls -la ${HOME}; ls -la /github/{home,workspace}; ls -la ${WORKFLOW_DIR}
-            touch ~/test2-action; sudo touch /github/{home,workspace}/test2-action ${WORKFLOW_DIR}/test2-action
-            ls -la ${HOME}; ls -la /github/{home,workspace}; ls -la ${WORKFLOW_DIR}
+
+            ls -la ${HOME}; ls -la /github/home; ls -la ${GITHUB_WORKSPACE}; ls -la ${WORKFLOW_DIR}
+
+            touch ~/test2-action; sudo touch /github/home/test2-action ${GITHUB_WORKSPACE}/test2-action
+            ${WORKFLOW_DIR}/test2-action
+
+            ls -la ${HOME}; ls -la /github/home; ls -la ${GITHUB_WORKSPACE}; ls -la ${WORKFLOW_DIR}
       - shell: bash
         run: 'ls -la ${HOME}; ls -la /github/{home,workspace} || true'
   test3:
@@ -84,18 +92,22 @@ jobs:
       - shell: bash
         run: 'echo "WORKFLOW_DIR=$(dirname ${GITHUB_EVENT_PATH})" | sudo tee -a $GITHUB_ENV'
       - shell: bash
-        run: 'ls -la ${HOME}; ls -la /github/{home,workspace}; ls -la ${WORKFLOW_DIR}'
+        run: 'ls -la ${HOME}; ls -la /github/home; ls -la ${GITHUB_WORKSPACE}; ls -la ${WORKFLOW_DIR}'
       - shell: bash
         run: 'touch ~/test3; sudo touch /github/{home,workspace}/test3 ${WORKFLOW_DIR}/test3'
       - shell: bash
-        run: 'ls -la ${HOME}; ls -la /github/{home,workspace}; ls -la ${WORKFLOW_DIR}'
+        run: 'ls -la ${HOME}; ls -la /github/home; ls -la ${GITHUB_WORKSPACE}; ls -la ${WORKFLOW_DIR}'
       - uses: ysoftwareab/yplatform@master
         with:
-          run: |-
+          run: >-
             id -u; id -g
-            ls -la ${HOME}; ls -la /github/{home,workspace}; ls -la ${WORKFLOW_DIR}
-            touch ~/test3-action; sudo touch /github/{home,workspace}/test3-action ${WORKFLOW_DIR}/test3-action
-            ls -la ${HOME}; ls -la /github/{home,workspace}; ls -la ${WORKFLOW_DIR}
+
+            ls -la ${HOME}; ls -la /github/home; ls -la ${GITHUB_WORKSPACE}; ls -la ${WORKFLOW_DIR}
+
+            touch ~/test3-action; sudo touch /github/home/test3-action ${GITHUB_WORKSPACE}/test3-action
+            ${WORKFLOW_DIR}/test3-action
+
+            ls -la ${HOME}; ls -la /github/home; ls -la ${GITHUB_WORKSPACE}; ls -la ${WORKFLOW_DIR}
       - shell: bash
         run: 'ls -la ${HOME}; ls -la /github/{home,workspace} || true'
     needs:
