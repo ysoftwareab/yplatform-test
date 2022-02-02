@@ -113,7 +113,7 @@ let makeJob = function(index) {
       run: 'echo "HOME=/home/yp" | sudo tee -a $GITHUB_ENV'
     }, {
       shell: 'bash',
-      run: 'echo "WORKFLOW_DIR=$(dirname ${GITHUB_EVENT_PATH})" | sudo tee -a $GITHUB_ENV'
+      run: 'echo "WORKFLOW_DIR=$(dirname ${GITHUB_EVENT_PATH})" | sudo tee -a $GITHUB_ENV; sudo mkdir -p ${WORKFLOW_DIR}'
     }, {
       shell: 'bash',
       run: 'ls -la ${HOME}; ls -la /github/{home,workspace}; ls -la ${WORKFLOW_DIR}'
