@@ -107,7 +107,7 @@ let makeJob = function(index) {
     },
     steps: [{
       shell: 'bash',
-      run: 'id -u; id -g; sudo mkdir -p ${GITHUB_WORKSPACE}'
+      run: 'id -u; id -g; sudo mkdir -p ${GITHUB_WORKSPACE}; sudo chown $(id -u):$(id -g) ${GITHUB_WORKSPACE}'
     }, {
       shell: 'bash',
       run: 'echo "HOME=/home/yp" | sudo tee -a $GITHUB_ENV'
