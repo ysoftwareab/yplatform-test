@@ -126,7 +126,7 @@ let workflow = {
       },
       steps: [{
         shell: 'bash',
-        run: 'echo "HOME=/home/yp" >> $GITHUB_ENV'
+        run: 'echo "HOME=/home/yp" | sudo tee -a $GITHUB_ENV'
       }, {
         shell: 'bash',
         run: 'echo $HOME; cd; pwd; ls -la'
