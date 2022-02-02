@@ -107,26 +107,27 @@ let makeJob = function(index) {
     },
     steps: [{
       shell: 'bash',
-      run: 'id -u; id -g; sudo mkdir -p ${GITHUB_WORKSPACE}; sudo chown $(id -u):$(id -g) ${GITHUB_WORKSPACE}'
+      run: 'set -x; id -u; id -g; sudo mkdir -p ${GITHUB_WORKSPACE}; sudo chown $(id -u):$(id -g) ${GITHUB_WORKSPACE}'
     }, {
       shell: 'bash',
-      run: 'echo "HOME=/home/yp" | sudo tee -a $GITHUB_ENV'
+      run: 'set -x; echo "HOME=/home/yp" | sudo tee -a $GITHUB_ENV'
     }, {
       shell: 'bash',
-      run: 'echo "WORKFLOW_DIR=$(dirname ${GITHUB_EVENT_PATH})" | sudo tee -a $GITHUB_ENV'
+      run: 'set -x; echo "WORKFLOW_DIR=$(dirname ${GITHUB_EVENT_PATH})" | sudo tee -a $GITHUB_ENV'
     }, {
       shell: 'bash',
-      run: 'ls -la ${HOME}; ls -la /github/home; ls -la ${GITHUB_WORKSPACE}; ls -la ${WORKFLOW_DIR}'
+      run: 'set -x; ls -la ${HOME}; ls -la /github/home; ls -la ${GITHUB_WORKSPACE}; ls -la ${WORKFLOW_DIR}'
     }, {
       shell: 'bash',
-      run: `touch ~/test${index}; sudo touch /github/{home,workspace}/test${index} \${WORKFLOW_DIR}/test${index}`
+      run: `set -x; touch ~/test${index}; sudo touch /github/{home,workspace}/test${index} \${WORKFLOW_DIR}/test${index}`
     }, {
       shell: 'bash',
-      run: 'ls -la ${HOME}; ls -la /github/home; ls -la ${GITHUB_WORKSPACE}; ls -la ${WORKFLOW_DIR}'
+      run: 'set -x; ls -la ${HOME}; ls -la /github/home; ls -la ${GITHUB_WORKSPACE}; ls -la ${WORKFLOW_DIR}'
     }, {
       uses: `ysoftwareab/yplatform@master`,
       with: {
         run: _.join([
+          'set -x',
           'id -u; id -g',
           'ls -la ${HOME}; ls -la /github/home; ls -la ${GITHUB_WORKSPACE}; ls -la ${WORKFLOW_DIR}',
           `touch ~/test${index}-action; sudo touch /github/home/test${index}-action \${GITHUB_WORKSPACE}/test${index}-action \${WORKFLOW_DIR}/test${index}-action`,
@@ -135,7 +136,7 @@ let makeJob = function(index) {
       }
     }, {
       shell: 'bash',
-      run: 'ls -la ${HOME}; ls -la /github/{home,workspace} || true'
+      run: 'set -x; ls -la ${HOME}; ls -la /github/{home,workspace} || true'
     }]
   };
 }

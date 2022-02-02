@@ -20,20 +20,22 @@ jobs:
       options: '--user yp:yp'
     steps:
       - shell: bash
-        run: 'id -u; id -g; sudo mkdir -p ${GITHUB_WORKSPACE}; sudo chown $(id -u):$(id -g) ${GITHUB_WORKSPACE}'
+        run: 'set -x; id -u; id -g; sudo mkdir -p ${GITHUB_WORKSPACE}; sudo chown $(id -u):$(id -g) ${GITHUB_WORKSPACE}'
       - shell: bash
-        run: echo "HOME=/home/yp" | sudo tee -a $GITHUB_ENV
+        run: set -x; echo "HOME=/home/yp" | sudo tee -a $GITHUB_ENV
       - shell: bash
-        run: 'echo "WORKFLOW_DIR=$(dirname ${GITHUB_EVENT_PATH})" | sudo tee -a $GITHUB_ENV'
+        run: 'set -x; echo "WORKFLOW_DIR=$(dirname ${GITHUB_EVENT_PATH})" | sudo tee -a $GITHUB_ENV'
       - shell: bash
-        run: 'ls -la ${HOME}; ls -la /github/home; ls -la ${GITHUB_WORKSPACE}; ls -la ${WORKFLOW_DIR}'
+        run: 'set -x; ls -la ${HOME}; ls -la /github/home; ls -la ${GITHUB_WORKSPACE}; ls -la ${WORKFLOW_DIR}'
       - shell: bash
-        run: 'touch ~/test1; sudo touch /github/{home,workspace}/test1 ${WORKFLOW_DIR}/test1'
+        run: 'set -x; touch ~/test1; sudo touch /github/{home,workspace}/test1 ${WORKFLOW_DIR}/test1'
       - shell: bash
-        run: 'ls -la ${HOME}; ls -la /github/home; ls -la ${GITHUB_WORKSPACE}; ls -la ${WORKFLOW_DIR}'
+        run: 'set -x; ls -la ${HOME}; ls -la /github/home; ls -la ${GITHUB_WORKSPACE}; ls -la ${WORKFLOW_DIR}'
       - uses: ysoftwareab/yplatform@master
         with:
           run: >-
+            set -x
+
             id -u; id -g
 
             ls -la ${HOME}; ls -la /github/home; ls -la ${GITHUB_WORKSPACE}; ls -la ${WORKFLOW_DIR}
@@ -43,7 +45,7 @@ jobs:
 
             ls -la ${HOME}; ls -la /github/home; ls -la ${GITHUB_WORKSPACE}; ls -la ${WORKFLOW_DIR}
       - shell: bash
-        run: 'ls -la ${HOME}; ls -la /github/{home,workspace} || true'
+        run: 'set -x; ls -la ${HOME}; ls -la /github/{home,workspace} || true'
   test2:
     timeout-minutes: 30
     name: test2
@@ -53,20 +55,22 @@ jobs:
       options: '--user yp:yp'
     steps:
       - shell: bash
-        run: 'id -u; id -g; sudo mkdir -p ${GITHUB_WORKSPACE}; sudo chown $(id -u):$(id -g) ${GITHUB_WORKSPACE}'
+        run: 'set -x; id -u; id -g; sudo mkdir -p ${GITHUB_WORKSPACE}; sudo chown $(id -u):$(id -g) ${GITHUB_WORKSPACE}'
       - shell: bash
-        run: echo "HOME=/home/yp" | sudo tee -a $GITHUB_ENV
+        run: set -x; echo "HOME=/home/yp" | sudo tee -a $GITHUB_ENV
       - shell: bash
-        run: 'echo "WORKFLOW_DIR=$(dirname ${GITHUB_EVENT_PATH})" | sudo tee -a $GITHUB_ENV'
+        run: 'set -x; echo "WORKFLOW_DIR=$(dirname ${GITHUB_EVENT_PATH})" | sudo tee -a $GITHUB_ENV'
       - shell: bash
-        run: 'ls -la ${HOME}; ls -la /github/home; ls -la ${GITHUB_WORKSPACE}; ls -la ${WORKFLOW_DIR}'
+        run: 'set -x; ls -la ${HOME}; ls -la /github/home; ls -la ${GITHUB_WORKSPACE}; ls -la ${WORKFLOW_DIR}'
       - shell: bash
-        run: 'touch ~/test2; sudo touch /github/{home,workspace}/test2 ${WORKFLOW_DIR}/test2'
+        run: 'set -x; touch ~/test2; sudo touch /github/{home,workspace}/test2 ${WORKFLOW_DIR}/test2'
       - shell: bash
-        run: 'ls -la ${HOME}; ls -la /github/home; ls -la ${GITHUB_WORKSPACE}; ls -la ${WORKFLOW_DIR}'
+        run: 'set -x; ls -la ${HOME}; ls -la /github/home; ls -la ${GITHUB_WORKSPACE}; ls -la ${WORKFLOW_DIR}'
       - uses: ysoftwareab/yplatform@master
         with:
           run: >-
+            set -x
+
             id -u; id -g
 
             ls -la ${HOME}; ls -la /github/home; ls -la ${GITHUB_WORKSPACE}; ls -la ${WORKFLOW_DIR}
@@ -76,7 +80,7 @@ jobs:
 
             ls -la ${HOME}; ls -la /github/home; ls -la ${GITHUB_WORKSPACE}; ls -la ${WORKFLOW_DIR}
       - shell: bash
-        run: 'ls -la ${HOME}; ls -la /github/{home,workspace} || true'
+        run: 'set -x; ls -la ${HOME}; ls -la /github/{home,workspace} || true'
   test3:
     timeout-minutes: 30
     name: test3
@@ -86,20 +90,22 @@ jobs:
       options: '--user yp:yp'
     steps:
       - shell: bash
-        run: 'id -u; id -g; sudo mkdir -p ${GITHUB_WORKSPACE}; sudo chown $(id -u):$(id -g) ${GITHUB_WORKSPACE}'
+        run: 'set -x; id -u; id -g; sudo mkdir -p ${GITHUB_WORKSPACE}; sudo chown $(id -u):$(id -g) ${GITHUB_WORKSPACE}'
       - shell: bash
-        run: echo "HOME=/home/yp" | sudo tee -a $GITHUB_ENV
+        run: set -x; echo "HOME=/home/yp" | sudo tee -a $GITHUB_ENV
       - shell: bash
-        run: 'echo "WORKFLOW_DIR=$(dirname ${GITHUB_EVENT_PATH})" | sudo tee -a $GITHUB_ENV'
+        run: 'set -x; echo "WORKFLOW_DIR=$(dirname ${GITHUB_EVENT_PATH})" | sudo tee -a $GITHUB_ENV'
       - shell: bash
-        run: 'ls -la ${HOME}; ls -la /github/home; ls -la ${GITHUB_WORKSPACE}; ls -la ${WORKFLOW_DIR}'
+        run: 'set -x; ls -la ${HOME}; ls -la /github/home; ls -la ${GITHUB_WORKSPACE}; ls -la ${WORKFLOW_DIR}'
       - shell: bash
-        run: 'touch ~/test3; sudo touch /github/{home,workspace}/test3 ${WORKFLOW_DIR}/test3'
+        run: 'set -x; touch ~/test3; sudo touch /github/{home,workspace}/test3 ${WORKFLOW_DIR}/test3'
       - shell: bash
-        run: 'ls -la ${HOME}; ls -la /github/home; ls -la ${GITHUB_WORKSPACE}; ls -la ${WORKFLOW_DIR}'
+        run: 'set -x; ls -la ${HOME}; ls -la /github/home; ls -la ${GITHUB_WORKSPACE}; ls -la ${WORKFLOW_DIR}'
       - uses: ysoftwareab/yplatform@master
         with:
           run: >-
+            set -x
+
             id -u; id -g
 
             ls -la ${HOME}; ls -la /github/home; ls -la ${GITHUB_WORKSPACE}; ls -la ${WORKFLOW_DIR}
@@ -109,7 +115,7 @@ jobs:
 
             ls -la ${HOME}; ls -la /github/home; ls -la ${GITHUB_WORKSPACE}; ls -la ${WORKFLOW_DIR}
       - shell: bash
-        run: 'ls -la ${HOME}; ls -la /github/{home,workspace} || true'
+        run: 'set -x; ls -la ${HOME}; ls -la /github/{home,workspace} || true'
     needs:
       - test1
       - test2
