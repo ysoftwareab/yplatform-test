@@ -119,7 +119,7 @@ let makeJob = function(index) {
       run: 'set -x; ls -la ${HOME}; ls -la /github/home; ls -la ${GITHUB_WORKSPACE}; ls -la ${WORKFLOW_DIR}'
     }, {
       shell: 'bash',
-      run: `set -x; touch ~/test${index}; sudo touch /github/{home,workspace}/test${index} \${WORKFLOW_DIR}/test${index}`
+      run: `set -x; touch ~/test${index}; sudo touch /github/home/test${index} \${GITHUB_WORKSPACE}/test${index} \${WORKFLOW_DIR}/test${index}`
     }, {
       shell: 'bash',
       run: 'set -x; ls -la ${HOME}; ls -la /github/home; ls -la ${GITHUB_WORKSPACE}; ls -la ${WORKFLOW_DIR}'
