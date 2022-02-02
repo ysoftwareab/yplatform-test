@@ -116,7 +116,28 @@ let workflow = {
     'cancel-in-progress': true
   },
   jobs: {
-    ...jobs
+    test: {
+      'timeout-minutes': 30,
+      name: 'test',
+      'runs-on': 'ubuntu-latest',
+      container: {
+        image: `ysoftwareab/yp-ubuntu-20.04-minimal:latest`,
+        options: '--user yp:yp'
+      },
+      steps: [{
+        shell: 'bash',
+        run: 'echo "HOME=/home/yp" >> $GITHUB_ENV'
+      }, {
+        shell: 'bash',
+        run: 'echo $HOME; cd; pwd; ls -la'
+      }, {
+        shell: 'bash',
+        run: 'echo foo > ~/foo'
+      }, {
+        shell: 'bash',
+        run: 'echo $HOME; cd; pwd; ls -la'
+      }]
+    }
   }
 };
 
