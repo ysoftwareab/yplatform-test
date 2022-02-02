@@ -157,7 +157,7 @@ let workflow = {
     'cancel-in-progress': true
   },
   jobs: {
-    test: makeJob(1),
+    test1: makeJob(1),
     test2: makeJob(2),
     test3: (function() {
       let job = makeJob(3);
