@@ -132,28 +132,110 @@ let workflow = {
         run: 'echo "HOME=/home/yp" | sudo tee -a $GITHUB_ENV'
       }, {
         shell: 'bash',
-        run: 'echo $HOME; cd; pwd; ls -la'
+        run: 'ls -la ${HOME}; ls -la /github/home'
       }, {
         shell: 'bash',
-        run: 'echo foo > ~/foo'
+        run: 'echo foo > ~/foo; echo foo > /github/home/foo'
       }, {
         shell: 'bash',
-        run: 'echo $HOME; cd; pwd; ls -la'
+        run: 'ls -la ${HOME}'
       }, {
         uses: `ysoftwareab/yplatform@master`,
         with: {
           run: _.join([
             'id -u; id -g',
-            'echo $HOME; cd; pwd; ls -la',
-            'echo bar > ~/bar',
-            'echo $HOME; cd; pwd; ls -la'
+            'ls -la ${HOME}',
+            'echo bar > ~/bar; echo bar > /github/home/bar',
+            'ls -la ${HOME}'
           ], '\n')
         }
       }, {
         shell: 'bash',
-        run: 'echo $HOME; cd; pwd; ls -la'
+        run: 'ls -la ${HOME}; ls -la /github/home'
       }]
     }
+  },
+
+  test2: {
+    'timeout-minutes': 30,
+    name: 'test',
+    'runs-on': 'ubuntu-latest',
+    container: {
+      image: `ysoftwareab/yp-ubuntu-20.04-minimal:latest`,
+      options: '--user yp:yp'
+    },
+    steps: [{
+      shell: 'bash',
+      run: 'id -u; id -g'
+    }, {
+      shell: 'bash',
+      run: 'echo "HOME=/home/yp" | sudo tee -a $GITHUB_ENV'
+    }, {
+      shell: 'bash',
+      run: 'ls -la ${HOME}; ls -la /github/home'
+    }, {
+      shell: 'bash',
+      run: 'echo foo2 > ~/foo2; echo foo > /github/home/foo2'
+    }, {
+      shell: 'bash',
+      run: 'ls -la ${HOME}'
+    }, {
+      uses: `ysoftwareab/yplatform@master`,
+      with: {
+        run: _.join([
+          'id -u; id -g',
+          'ls -la ${HOME}',
+          'echo bar2 > ~/bar2; echo bar2 > /github/home/bar2',
+          'ls -la ${HOME}'
+        ], '\n')
+      }
+    }, {
+      shell: 'bash',
+      run: 'ls -la ${HOME}; ls -la /github/home'
+    }]
+  },
+
+  test3: {
+    needs: [
+      'test',
+      'test2'
+    ],
+    'timeout-minutes': 30,
+    name: 'test',
+    'runs-on': 'ubuntu-latest',
+    container: {
+      image: `ysoftwareab/yp-ubuntu-20.04-minimal:latest`,
+      options: '--user yp:yp'
+    },
+    steps: [{
+      shell: 'bash',
+      run: 'id -u; id -g'
+    }, {
+      shell: 'bash',
+      run: 'echo "HOME=/home/yp" | sudo tee -a $GITHUB_ENV'
+    }, {
+      shell: 'bash',
+      run: 'ls -la ${HOME}; ls -la /github/home'
+    }, {
+      shell: 'bash',
+      run: 'echo foo3 > ~/foo3; echo foo3 > /github/home/foo3'
+    }, {
+      shell: 'bash',
+      run: 'ls -la ${HOME}'
+    }, {
+      uses: `ysoftwareab/yplatform@master`,
+      with: {
+        run: _.join([
+          'id -u; id -g',
+          'ls -la ${HOME}',
+          'echo bar3 > ~/bar3; echo bar3 > /github/home/bar3',
+          'ls -la ${HOME}'
+        ], '\n')
+      }
+    }, {
+      shell: 'bash',
+      run: 'ls -la ${HOME}; ls -la /github/home'
+    }]
   }
 };
 
