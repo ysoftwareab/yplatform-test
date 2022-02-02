@@ -119,7 +119,7 @@ let makeJob = function(index) {
       run: 'ls -la ${HOME}; ls -la /github/{home,workspace}; ls -la ${WORKFLOW_DIR}'
     }, {
       shell: 'bash',
-      run: `touch ~/test${index}; sudo touch /github/{home,workspace}/test${index} ${WORKFLOW_DIR}/test${index}`
+      run: `touch ~/test${index}; sudo touch /github/{home,workspace}/test${index} \${WORKFLOW_DIR}/test${index}`
     }, {
       shell: 'bash',
       run: 'ls -la ${HOME}; ls -la /github/{home,workspace}; ls -la ${WORKFLOW_DIR}'
@@ -129,7 +129,7 @@ let makeJob = function(index) {
         run: _.join([
           'id -u; id -g',
           'ls -la ${HOME}; ls -la /github/{home,workspace}; ls -la ${WORKFLOW_DIR}',
-          `touch ~/test${index}-action; sudo touch /github/{home,workspace}/test${index}-action ${WORKFLOW_DIR}/test${index}-action`,
+          `touch ~/test${index}-action; sudo touch /github/{home,workspace}/test${index}-action \${WORKFLOW_DIR}/test${index}-action`,
           'ls -la ${HOME}; ls -la /github/{home,workspace}; ls -la ${WORKFLOW_DIR}'
         ], '\n')
       }
