@@ -136,7 +136,7 @@ let makeJob = function(index) {
       }
     }, {
       shell: 'bash',
-      run: 'set -x; ls -la ${HOME}; ls -la /github/{home,workspace} || true'
+      run: 'set -x; ls -la ${HOME}; ls -la /github/home; ls -la ${GITHUB_WORKSPACE}; ls -la ${WORKFLOW_DIR}'
     }]
   };
 }

@@ -45,7 +45,7 @@ jobs:
 
             ls -la ${HOME}; ls -la /github/home; ls -la ${GITHUB_WORKSPACE}; ls -la ${WORKFLOW_DIR}
       - shell: bash
-        run: 'set -x; ls -la ${HOME}; ls -la /github/{home,workspace} || true'
+        run: 'set -x; ls -la ${HOME}; ls -la /github/home; ls -la ${GITHUB_WORKSPACE}; ls -la ${WORKFLOW_DIR}'
   test2:
     timeout-minutes: 30
     name: test2
@@ -80,7 +80,7 @@ jobs:
 
             ls -la ${HOME}; ls -la /github/home; ls -la ${GITHUB_WORKSPACE}; ls -la ${WORKFLOW_DIR}
       - shell: bash
-        run: 'set -x; ls -la ${HOME}; ls -la /github/{home,workspace} || true'
+        run: 'set -x; ls -la ${HOME}; ls -la /github/home; ls -la ${GITHUB_WORKSPACE}; ls -la ${WORKFLOW_DIR}'
   test3:
     timeout-minutes: 30
     name: test3
@@ -115,7 +115,7 @@ jobs:
 
             ls -la ${HOME}; ls -la /github/home; ls -la ${GITHUB_WORKSPACE}; ls -la ${WORKFLOW_DIR}
       - shell: bash
-        run: 'set -x; ls -la ${HOME}; ls -la /github/{home,workspace} || true'
+        run: 'set -x; ls -la ${HOME}; ls -la /github/home; ls -la ${GITHUB_WORKSPACE}; ls -la ${WORKFLOW_DIR}'
     needs:
       - test1
       - test2
