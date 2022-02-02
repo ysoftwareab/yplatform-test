@@ -1,0 +1,140 @@
+#!/usr/bin/env node
+
+let _ = require('lodash-firecloud');
+let ypVsn = require('../../yplatform/package.json').version;
+// debug
+// ypVsn = '0.3.12';
+
+let {artifactsStep} = require('../../yplatform/.github/workflows.src/common-step-artifacts');
+let {checkoutStep} = require('../../yplatform/.github/workflows.src/common-step-checkout');
+let {ciShSteps, ciShStepsDeploy} = require('../../yplatform/.github/workflows.src/common-steps');
+let {dockerBuildxSteps} = require('../../yplatform/.github/workflows.src/common-step-dockerbuildx');
+let {env: commonEnv} = require('../../yplatform/.github/workflows.src/common-env');
+let {matrixContainer} = require('../../yplatform/.github/workflows.src/common-matrix-container');
+
+// -----------------------------------------------------------------------------
+
+let fs = require('fs');
+let githubFix = fs.readFileSync(`${__dirname}/../../yplatform/bin/github-fix`, 'utf8');
+
+let fixStep = {
+  name: 'yplatform/bin/github-fix',
+  shell: 'bash',
+  run: [
+    'set -x',
+    githubFix
+  ].join('\n')
+};
+
+let debugStep = {
+  shell: 'bash',
+  run: [
+    'set -x',
+    'echo HOME=$HOME',
+    'cd',
+    'ls -la',
+    'declare -p',
+    'cat ~/.bash_profile || true',
+    'cat ~/.bashrc || true',
+    'cat ~/.bash_aliases || true'
+  ].join('\n')
+}
+
+let env = {
+  ...commonEnv,
+  DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}',
+  DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}',
+  GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}',
+  GITHUB_MATRIX_YP_CI_BREW_INSTALL: '${{ matrix.yp_ci_brew_install }}',
+  YP_SKIP_SUDO_BOOTSTRAP: '${{ matrix.yp_skip_sudo_bootstrap }}',
+  YP_SKIP_BREW_BOOTSTRAP: '${{ matrix.yp_skip_brew_bootstrap }}'
+};
+
+let jobs = {};
+
+let makeJobs = function(matrixContainer, nameSuffix) {
+  matrixContainer = _.isArray(matrixContainer) ? matrixContainer : [
+    matrixContainer
+  ];
+
+  let containerImageName = 'yp-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}';
+  let name = _.join([
+    containerImageName,
+    'skipsudob${{ matrix.yp_skip_sudo_bootstrap }}',
+    'skipbrewb${{ matrix.yp_skip_brew_bootstrap }}'
+  ], '-');
+  jobs[`mainc-${nameSuffix}`] = {
+    'timeout-minutes': 30,
+    strategy: {
+      'fail-fast': false,
+      matrix: {
+        container: matrixContainer,
+        yp_ci_brew_install: [
+          'minimal'
+        ]
+      }
+    },
+    name,
+    'runs-on': 'ubuntu-latest',
+    container: {
+      image: `ysoftwareab/${containerImageName}:${ypVsn}`,
+      options: '--user yp:yp',
+      env: {
+        GITHUB_JOB_NAME: name,
+      }
+    },
+    env: {
+      ...env,
+      GITHUB_JOB_NAME: name,
+      GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}',
+      GITHUB_MATRIX_YP_CI_BREW_INSTALL: '${{ matrix.yp_ci_brew_install }}'
+    },
+    steps: [
+      debugStep,
+      fixStep,
+      checkoutStep,
+      debugStep,
+      ...ciShSteps,
+      ...ciShStepsDeploy,
+      _.merge({}, artifactsStep, {
+        with: {
+          name
+        }
+      })
+    ]
+  };
+};
+
+matrixContainer = {
+  ubuntu: [
+    'ubuntu-20.04'
+  ]
+};
+_.forEach(matrixContainer, makeJobs);
+
+let workflow = {
+  name: 'CI',
+  on: {
+    push: {
+      branches: [
+        'github*',
+        'master'
+      ]
+    },
+    schedule: [{
+      cron: '0 0 * * *'
+    }],
+    // eslint-disable-next-line no-null/no-null
+    workflow_dispatch: null
+  },
+  concurrency: {
+    group: '${{ github.ref }}',
+    'cancel-in-progress': true
+  },
+  jobs: {
+    ...jobs
+  }
+};
+
+// eslint-disable-next-line no-console, no-null/no-null
+console.log(JSON.stringify(workflow, null, 2));
