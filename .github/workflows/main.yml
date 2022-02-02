@@ -50,7 +50,7 @@ jobs:
         yp-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}-skipsudob${{ matrix.yp_skip_sudo_bootstrap
         }}-skipbrewb${{ matrix.yp_skip_brew_bootstrap }}
     steps:
-      - uses: ysoftwareab/yplatform@v0.3.25
+      - uses: ysoftwareab/yplatform@master
         with:
           run: |-
             bin/github-fix
@@ -133,7 +133,7 @@ jobs:
         yp-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}-skipsudob${{ matrix.yp_skip_sudo_bootstrap
         }}-skipbrewb${{ matrix.yp_skip_brew_bootstrap }}
     steps:
-      - uses: ysoftwareab/yplatform@v0.3.25
+      - uses: ysoftwareab/yplatform@master
         with:
           run: |-
             bin/github-fix
@@ -217,7 +217,7 @@ jobs:
         yp-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}-skipsudob${{ matrix.yp_skip_sudo_bootstrap
         }}-skipbrewb${{ matrix.yp_skip_brew_bootstrap }}
     steps:
-      - uses: ysoftwareab/yplatform@v0.3.25
+      - uses: ysoftwareab/yplatform@master
         with:
           run: |-
             bin/github-fix
@@ -302,7 +302,7 @@ jobs:
         yp-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}-skipsudob${{ matrix.yp_skip_sudo_bootstrap
         }}-skipbrewb${{ matrix.yp_skip_brew_bootstrap }}
     steps:
-      - uses: ysoftwareab/yplatform@v0.3.25
+      - uses: ysoftwareab/yplatform@master
         with:
           run: |-
             bin/github-fix
