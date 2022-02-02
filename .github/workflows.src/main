@@ -137,7 +137,7 @@ let workflow = {
         shell: 'bash',
         run: 'echo $HOME; cd; pwd; ls -la'
       }, {
-        uses: `ysoftwareab/yplatform`,
+        uses: `ysoftwareab/yplatform@master`,
         with: {
           run: _.join([
             'echo $HOME; cd; pwd; ls -la',
