@@ -96,6 +96,47 @@ let makeJobs = function(matrixContainer, nameSuffix) {
 
 _.forEach(matrixContainer, makeJobs);
 
+let makeJob = function(index) {
+  return {
+    'timeout-minutes': 30,
+    name: `test${index}`,
+    'runs-on': 'ubuntu-latest',
+    container: {
+      image: `ysoftwareab/yp-ubuntu-20.04-minimal:latest`,
+      options: '--user yp:yp'
+    },
+    steps: [{
+      shell: 'bash',
+      run: 'id -u; id -g'
+    }, {
+      shell: 'bash',
+      run: 'echo "HOME=/home/yp" | sudo tee -a $GITHUB_ENV'
+    }, {
+      shell: 'bash',
+      run: 'ls -la ${HOME}; ls -la /github/home; ls -la $GITHUB_WORKSPACE'
+    }, {
+      shell: 'bash',
+      run: `touch ~/test${index}; sudo touch /github/home/test${index}; sudo touch \${GITHUB_WORKSPACE}/test${index}`
+    }, {
+      shell: 'bash',
+      run: 'ls -la ${HOME}; ls -la /github/home; ls -la $GITHUB_WORKSPACE'
+    }, {
+      uses: `ysoftwareab/yplatform@master`,
+      with: {
+        run: _.join([
+          'id -u; id -g',
+          'ls -la ${HOME}',
+          `touch ~/test${index}-action; sudo touch /github/home/test${index}-action; sudo touch \${GITHUB_WORKSPACE}/test${index}-action`,
+          'ls -la ${HOME}'
+        ], '\n')
+      }
+    }, {
+      shell: 'bash',
+      run: 'ls -la ${HOME}; ls -la /github/home; ls -la $GITHUB_WORKSPACE'
+    }]
+  };
+}
+
 let workflow = {
   name: 'CI',
   on: {
@@ -116,126 +157,13 @@ let workflow = {
     'cancel-in-progress': true
   },
   jobs: {
-    test: {
-      'timeout-minutes': 30,
-      name: 'test',
-      'runs-on': 'ubuntu-latest',
-      container: {
-        image: `ysoftwareab/yp-ubuntu-20.04-minimal:latest`,
-        options: '--user yp:yp'
-      },
-      steps: [{
-        shell: 'bash',
-        run: 'id -u; id -g'
-      }, {
-        shell: 'bash',
-        run: 'echo "HOME=/home/yp" | sudo tee -a $GITHUB_ENV'
-      }, {
-        shell: 'bash',
-        run: 'ls -la ${HOME}; ls -la /github/home; ls -la $GITHUB_WORKSPACE'
-      }, {
-        shell: 'bash',
-        run: 'echo foo > ~/foo; echo foo > /github/home/foo; echo foo > ${GITHUB_WORKSPACE}/foo'
-      }, {
-        shell: 'bash',
-        run: 'ls -la ${HOME}'
-      }, {
-        uses: `ysoftwareab/yplatform@master`,
-        with: {
-          run: _.join([
-            'id -u; id -g',
-            'ls -la ${HOME}',
-            'echo bar > ~/bar; echo bar > /github/home/bar',
-            'ls -la ${HOME}'
-          ], '\n')
-        }
-      }, {
-        shell: 'bash',
-        run: 'ls -la ${HOME}; ls -la /github/home; ls -la $GITHUB_WORKSPACE'
-      }]
-    },
-
-    test2: {
-      'timeout-minutes': 30,
-      name: 'test',
-      'runs-on': 'ubuntu-latest',
-      container: {
-        image: `ysoftwareab/yp-ubuntu-20.04-minimal:latest`,
-        options: '--user yp:yp'
-      },
-      steps: [{
-        shell: 'bash',
-        run: 'id -u; id -g'
-      }, {
-        shell: 'bash',
-        run: 'echo "HOME=/home/yp" | sudo tee -a $GITHUB_ENV'
-      }, {
-        shell: 'bash',
-        run: 'ls -la ${HOME}; ls -la /github/home; ls -la $GITHUB_WORKSPACE'
-      }, {
-        shell: 'bash',
-        run: 'echo foo2 > ~/foo2; echo foo > /github/home/foo2; echo foo2 > ${GITHUB_WORKSPACE}/foo2'
-      }, {
-        shell: 'bash',
-        run: 'ls -la ${HOME}'
-      }, {
-        uses: `ysoftwareab/yplatform@master`,
-        with: {
-          run: _.join([
-            'id -u; id -g',
-            'ls -la ${HOME}',
-            'echo bar2 > ~/bar2; echo bar2 > /github/home/bar2',
-            'ls -la ${HOME}'
-          ], '\n')
-        }
-      }, {
-        shell: 'bash',
-        run: 'ls -la ${HOME}; ls -la /github/home; ls -la $GITHUB_WORKSPACE'
-      }]
-    },
-
-    test3: {
-      needs: [
-        'test',
-        'test2'
-      ],
-      'timeout-minutes': 30,
-      name: 'test',
-      'runs-on': 'ubuntu-latest',
-      container: {
-        image: `ysoftwareab/yp-ubuntu-20.04-minimal:latest`,
-        options: '--user yp:yp'
-      },
-      steps: [{
-        shell: 'bash',
-        run: 'id -u; id -g'
-      }, {
-        shell: 'bash',
-        run: 'echo "HOME=/home/yp" | sudo tee -a $GITHUB_ENV'
-      }, {
-        shell: 'bash',
-        run: 'ls -la ${HOME}; ls -la /github/home; ls -la $GITHUB_WORKSPACE'
-      }, {
-        shell: 'bash',
-        run: 'echo foo3 > ~/foo3; echo foo3 > /github/home/foo3; echo foo3 > ${GITHUB_WORKSPACE}/foo3'
-      }, {
-        shell: 'bash',
-        run: 'ls -la ${HOME}'
-      }, {
-        uses: `ysoftwareab/yplatform@master`,
-        with: {
-          run: _.join([
-            'id -u; id -g',
-            'ls -la ${HOME}',
-            'echo bar3 > ~/bar3; echo bar3 > /github/home/bar3',
-            'ls -la ${HOME}'
-          ], '\n')
-        }
-      }, {
-        shell: 'bash',
-        run: 'ls -la ${HOME}; ls -la /github/home; ls -la $GITHUB_WORKSPACE'
-      }]
-    }
+    test: makeJob(1),
+    test2: makeJob(2),
+    test3: (function() {
+      let job = makeJob(3);
+      job.needs = ['test1', 'test2'];
+      return job;
+    })()
   }
 };
 
